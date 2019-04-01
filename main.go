@@ -77,7 +77,7 @@ func main() {
 
 	Answer.Connect("pressed", func() {
 
-		fmt.Println("答案按钮被按下")
+		Add
 
 	})
 
