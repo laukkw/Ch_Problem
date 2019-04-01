@@ -52,7 +52,7 @@ func WriteFile(path string) {
 
 }
 
-func main() {
-	path := "./作业生成/乘法.txt"
-	WriteFile(path) // 写入函数
-}
+//func main() {
+	//path := "./作业生成/乘法.txt"
+	//WriteFile(path) // 写入函数
+//}

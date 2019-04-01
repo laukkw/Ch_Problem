@@ -1,4 +1,4 @@
-package main
+package Add
 
 import (
 	//	"bufio"
@@ -34,14 +34,12 @@ func WriteFile(path string) {
 		a = rand.Intn(100)
 		b = rand.Intn(100)
 		add := a + b
-
 		fmt.Printf("%v + %v = %v \n", a, b, add)
-		Start := fmt.Sprintf("<第%d题>  ", i+1)
-
-		buf := fmt.Sprintf("%v + %v = %v ", a, b, add)
 
 		if i%2 == 0 {
+			Start := fmt.Sprintf("<第%d题>  ", i+1)
 
+			buf := fmt.Sprintf("%v + %v = %v \n", a, b, add)
 			_, err = f.WriteString(Start)
 			_, err := f.WriteString(buf)
 			if err != nil {
@@ -56,7 +54,7 @@ func WriteFile(path string) {
 
 }
 
-func main() {
-	path := "./作业生成/加法.txt"
-	WriteFile(path) // 写入函数
-}
+//func main() {
+//	path := "./作业生成/加法.txt"
+//	WriteFile(path) // 写入函数
+//}

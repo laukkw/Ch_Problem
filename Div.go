@@ -33,26 +33,28 @@ func WriteFile(path string) {
 		var a, b int
 		a = rand.Intn(20)
 		b = rand.Intn(10)
-		add := a / b
+		add := a * b
+		if a == 0 || b == 0 {
+			i--
+		} else {
 
-		Start := fmt.Sprintf("<第%d题>  ", i+1)
-		_, err = f.WriteString(Start)
+			Start := fmt.Sprintf("<第%d题>  ", i+1)
+			_, err = f.WriteString(Start)
 
-		buf := fmt.Sprintf("%v %  %v = %v \n", a, b, add)
-		_, err := f.WriteString(buf)
+			buf := fmt.Sprintf("%v /  %v = %v \n", add, a, b)
+			_, err := f.WriteString(buf)
 
-		if err != nil {
-			fmt.Println("err = ", err)
+			if err != nil {
+				fmt.Println("err = ", err)
+			}
 		}
-
-		fmt.Printf("%v %  %v = %v \n", a, b, add)
+		fmt.Printf("%v /  %v = %v \n", add, a, b)
 		//fmt.Printf("%d + %v = \n", rand.Intn(100), rand.Intn(100),)
 		//fmt.Println()
 	}
-
 }
 
-func main() {
-	path := "./demo.txt"
-	WriteFile(path) // 写入函数
-}
+//func main() {
+//	path := "./作业生成/除法.txt"
+//	WriteFile(path) // 写入函数
+//}

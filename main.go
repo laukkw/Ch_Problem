@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Ch_Problem/Math"
 	"fmt"
 	"github.com/mattn/go-gtk/glib"
 	"github.com/mattn/go-gtk/gtk"
@@ -8,7 +9,7 @@ import (
 )
 
 func HandleButton(ctx *glib.CallbackContext) {
-	arg := ctx.Data()   //获取用户传递的参数，是空接口类型
+	arg := ctx.Data()   //获取用户传递的参数是空接口类型
 	p, ok := arg.(*int) //类型断言
 	if ok {             //如果ok为true，说明类型断言正确
 		//fmt.Println("*p = ", *p) //用户传递传递的参数为&tmp，是一个变量的地址
@@ -73,14 +74,35 @@ func main() {
 	layout.Put(SubButtom, 30, 140)
 	layout.Put(DivButtom, 30, 180)
 
-	//信号处理
+	//信号处理 加法
 
-	Answer.Connect("pressed", func() {
-
-		Add
+	AddButtom.Connect("pressed", func() {
+		path := "./作业生成/加法.txt"
+		Add.WriteFile(path)
 
 	})
 
+	//信号处理 减法
+	//	SubButtom.Connect("pressed", func() {
+	//		path := "./作业生成/加法.txt"
+	//		Sub.WriteFile(path)
+	//
+	//	})
+	/*
+		//信号处理 乘法
+		MulButtom.Connect("pressed", func() {
+			path := "./作业生成/加法.txt"
+			Math.WriteFile(path)
+
+		})
+
+		//信号处理  除法
+		DivButtom.Connect("pressed", func() {
+			path := "./作业生成/加法.txt"
+			Math.WriteFile(path)
+
+		})
+	*/
 	//信号处理2
 
 	tmp := 10
