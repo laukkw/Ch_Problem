@@ -78,31 +78,31 @@ func main() {
 
 	AddButtom.Connect("pressed", func() {
 		path := "./作业生成/加法.txt"
-		Add.WriteFile(path)
+		Add.WriteFileAdd(path)
 
 	})
 
-	//信号处理 减法
-	//	SubButtom.Connect("pressed", func() {
-	//		path := "./作业生成/加法.txt"
-	//		Sub.WriteFile(path)
-	//
-	//	})
-	/*
-		//信号处理 乘法
-		MulButtom.Connect("pressed", func() {
-			path := "./作业生成/加法.txt"
-			Math.WriteFile(path)
+	//	信号处理 减法
+	SubButtom.Connect("pressed", func() {
+		path := "./作业生成/减法.txt"
+		Add.WriteFileSub(path)
 
-		})
+	})
 
-		//信号处理  除法
-		DivButtom.Connect("pressed", func() {
-			path := "./作业生成/加法.txt"
-			Math.WriteFile(path)
+	//信号处理 乘法
+	MulButtom.Connect("pressed", func() {
+		path := "./作业生成/乘法.txt"
+		Add.WriteFileMul(path)
 
-		})
-	*/
+	})
+
+	//信号处理  除法
+	DivButtom.Connect("pressed", func() {
+		path := "./作业生成/除法.txt"
+		Add.WriteFileDiv(path)
+
+	})
+
 	//信号处理2
 
 	tmp := 10
