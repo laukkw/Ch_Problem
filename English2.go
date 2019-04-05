@@ -61,25 +61,9 @@ func Save2file(idx int, fileName, fileAdj, fileMean [][]string) {
 
 }
 
-func SpiderPageDB(idx int, page chan int) {
-	//获取 url
+func SpiderPageDBNew(idv, page2 chan int) {
 
-	url := "https://www.koolearn.com/dict/tag_1395_" + strconv.Itoa(idx) + ".html"
-	//	fmt.Println(url)
-	//爬取 url 对应的  页面
-
-	result1, err := HttpGetDB(url)
-	if err != nil {
-		fmt.Println("HttpGet err = ", err)
-		return
-
-	}
-
-	ret4 := regexp.MustCompile(`<a class="word" href="/dict/wd_([/d]).html`)
-
-	NewNum := ret4.FindAllStringSubmatch(result1, -1)
-
-	NewUrl := "https://www.koolearn.com/dict/wd_" + strconv.Itoa(NewNum) + ".html"
+	NewUrl := "https://www.koolearn.com/dict/wd_" + strconv.Itoa(idv) + ".html"
 	result, err := HttpGetDB(NewUrl)
 	if err != nil {
 		fmt.Println("HttpGetDB err", err)
@@ -101,17 +85,45 @@ func SpiderPageDB(idx int, page chan int) {
 	ret3 := regexp.MustCompile(`<span>(*)</span>`)
 	fileMean := ret3.FindAllStringSubmatch(result, -1)
 
-	Save2file(idx, fileName, fileAdj, fileMean)
+	Save2file(idv, fileName, fileAdj, fileMean)
+
+}
+
+func SpiderPageDB(idx int, page chan int) {
+	//获取 url
+
+	url := "https://www.koolearn.com/dict/tag_1395_" + strconv.Itoa(idx) + ".html"
+	//	fmt.Println(url)
+	//爬取 url 对应的  页面
+
+	result1, err := HttpGetDB(url)
+	if err != nil {
+		fmt.Println("HttpGet err = ", err)
+		return
+
+	}
+
+	ret4 := regexp.MustCompile(`<a class="word" href="/dict/wd_([/d]).html`)
+
+	SpiderPageDBNew(ret4, page2)
 
 	page <- idx
+	for i := start; i <= end; i++ {
+		fmt.Printf("第%d 页爬取完毕", <-page2)
+	}
 }
 
 func toWork(start, end int) {
 	fmt.Printf("正在爬取%d 页到 %d 页 ...", start, end)
 
 	page := make(chan int) //防止线程提前结束
+	page2 := make(chan int)
 	for i := start; i <= end; i++ {
 		go SpiderPageDB(i, page)
+	}
+
+	for i := start; i <= end; i++ {
+		go SpiderPageDBNew(i, page2)
 	}
 	for i := start; i <= end; i++ {
 		fmt.Printf("第 %d 页爬取完毕\n", <-page)
