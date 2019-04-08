@@ -32,6 +32,7 @@ func HttpGetDB(url string) (result string, err error) {
 	}
 	return
 }
+
 func Save2file(idx int, englishname [][]string) {
 	path := "/home/rzry/桌面/" + "第 " + strconv.Itoa(idx) + " 页.txt"
 	f, err := os.Create(path)
@@ -42,16 +43,18 @@ func Save2file(idx int, englishname [][]string) {
 	defer f.Close()
 	n := len(englishname)
 	for i := 0; i < n; i++ {
+		NewUrl := "https://www.koolearn.com/" + englishname[i][1] + ".html"
 
-		f.WriteString(englishname[i][1])
+		f.WriteString(NewUrl)
 		f.WriteString("\n")
+
 	}
 
 }
 func SpiderPageDB(idx int, page chan int) {
 	url := "https://www.koolearn.com/dict/tag_1395_" + strconv.Itoa(idx) + ".html"
 
-	//	fmt.Println(url)
+	fmt.Println(url)
 	result, err := HttpGetDB(url)
 
 	if err != nil {
@@ -59,7 +62,7 @@ func SpiderPageDB(idx int, page chan int) {
 		return
 	}
 
-	ret1 := regexp.MustCompile(`<a class="word" href="/dict/wd_(.*?).html`)
+	ret1 := regexp.MustCompile(`<a class="word" href="(.*?).html`)
 
 	englishname := ret1.FindAllStringSubmatch(result, -1)
 
@@ -74,10 +77,12 @@ func toWork(start, end int) {
 
 	for i := start; i <= end; i++ {
 		go SpiderPageDB(i, page)
-		for i := start; i <= end; i++ {
-			fmt.Printf("第%d 爬取完毕\n", <-page)
-		}
+
 	}
+	for i := start; i <= end; i++ {
+		fmt.Printf("第%d 爬取完毕\n", <-page)
+	}
+
 }
 
 func main() {
