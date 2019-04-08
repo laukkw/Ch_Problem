@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Ch_Problem/EgUrl"
 	"Ch_Problem/Math"
 	"fmt"
 	"github.com/mattn/go-gtk/glib"
@@ -22,6 +23,7 @@ func HandleButton(ctx *glib.CallbackContext) {
 }
 
 func main() {
+
 	// 初始化
 	gtk.Init(&os.Args)
 	//创建主窗口
@@ -100,6 +102,21 @@ func main() {
 	DivButtom.Connect("pressed", func() {
 		path := "./作业生成/除法.txt"
 		Add.WriteFileDiv(path)
+
+	})
+
+	Answer.Connect("pressed", func() {
+		//======================获取到 url
+		var start, end int
+
+		fmt.Print("输出起始页")
+
+		fmt.Scan(&start)
+
+		fmt.Print("输入终止")
+
+		fmt.Scan(&end)
+		Url.ToWork(start, end)
 
 	})
 

@@ -1,4 +1,4 @@
-package main
+package Url
 
 import (
 	"fmt"
@@ -71,7 +71,7 @@ func SpiderPageDB(idx int, page chan int) {
 	page <- idx
 }
 
-func toWork(start, end int) {
+func ToWork(start, end int) {
 	fmt.Printf("正在爬取...")
 	page := make(chan int)
 
@@ -83,18 +83,4 @@ func toWork(start, end int) {
 		fmt.Printf("第%d 爬取完毕\n", <-page)
 	}
 
-}
-
-func main() {
-	var start, end int
-
-	fmt.Print("输出起始页")
-
-	fmt.Scan(&start)
-
-	fmt.Print("输入终止")
-
-	fmt.Scan(&end)
-
-	toWork(start, end)
 }
