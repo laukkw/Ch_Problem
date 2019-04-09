@@ -35,7 +35,8 @@ func HttpGetDB(url string) (result string, err error) {
 	return
 }
 func Save2file(i int, fileName, fileAdj, fileMean [][]string) {
-	path := "./作业生成/dssd.txt"
+	//	path := "./作业生成/" + "第" + strconv.Itoa(i) + "页.txt"
+	path := "./作业生成/sss.txt"
 
 	f, err := os.Create(path)
 
@@ -81,9 +82,7 @@ func SpiderPageDB2(idb int, NewUrl string, page2 chan int) {
 	fileMean := ret3.FindAllStringSubmatch(result, -1)
 
 	Save2file(idb, fileName, fileAdj, fileMean)
-
 	page2 <- idb
-
 }
 
 /*
@@ -128,9 +127,7 @@ func SpiderPageDB(idx int, page chan int) {
 
 	for i := 1; i < n; i++ {
 		NewUrl := "https://www.koolearn.com/" + englishname[i][1] + ".html"
-		//	fmt.Println(NewUrl)
 		go SpiderPageDB2(i, NewUrl, page2)
-		//	fmt.Print(" %d ", <-page2)
 
 	}
 	for i := 1; i < n; i++ {
