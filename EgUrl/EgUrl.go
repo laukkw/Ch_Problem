@@ -34,9 +34,9 @@ func HttpGetDB(url string) (result string, err error) {
 	}
 	return
 }
-func Save2file(i int, fileName, fileAdj, fileMean [][]string) {
-	//	path := "./作业生成/" + "第" + strconv.Itoa(i) + "页.txt"
-	path := "./作业生成/sss.txt"
+func Save2file(idx int, fileName, fileAdj, fileMean [][]string) {
+	path := "./作业生成/" + "第" + strconv.Itoa(idx) + "页.txt"
+	//	path := "./作业生成/sss.txt"
 
 	f, err := os.Create(path)
 
@@ -47,18 +47,18 @@ func Save2file(i int, fileName, fileAdj, fileMean [][]string) {
 
 	defer f.Close()
 
-	n := len(fileName)
+	//	n := len(fileName)
 
 	f.WriteString("单词" + "\t\t\t" + "单词词性" + "\t\t" + "单词意思" + "\n")
 	//fmt.Println(fileName[5][1])
-	for i := 1; i < n; i++ {
+	for i := 1; i < 251; i++ {
 		f.WriteString(fileName[i][1] + "\t\t\t" + fileAdj[i][1] + "\t\t" + fileMean[i][1] + "\n")
 		//	f.WriteString(fileName[i][1])
 
 	}
 
 }
-func SpiderPageDB2(idb int, NewUrl string, page2 chan int) {
+func SpiderPageDB2(idb int, NewUrl string, page chan int) {
 
 	url := NewUrl
 	result, err := HttpGetDB(url)
@@ -82,7 +82,7 @@ func SpiderPageDB2(idb int, NewUrl string, page2 chan int) {
 	fileMean := ret3.FindAllStringSubmatch(result, -1)
 
 	Save2file(idb, fileName, fileAdj, fileMean)
-	page2 <- idb
+	page <- idb
 }
 
 /*
@@ -123,15 +123,13 @@ func SpiderPageDB(idx int, page chan int) {
 
 	englishname := ret1.FindAllStringSubmatch(result, -1)
 
-	n := len(englishname)
-
-	for i := 1; i < n; i++ {
+	for i := 1; i < 251; i++ {
 		NewUrl := "https://www.koolearn.com/" + englishname[i][1] + ".html"
-		go SpiderPageDB2(i, NewUrl, page2)
+		go SpiderPageDB2(i, NewUrl, page)
 
 	}
-	for i := 1; i < n; i++ {
-		fmt.Printf("爬取完成 %d", <-page2)
+	for i := 1; i < 251; i++ {
+		fmt.Printf("爬取完成 %d", <-page)
 	}
 
 	//	Save2file(idx, englishname)

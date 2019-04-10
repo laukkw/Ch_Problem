@@ -78,27 +78,29 @@ func SpiderPageDB(idx int, page chan int) {
 	ret4 := regexp.MustCompile(`<a class="word" href="/dict/wd_([/d]).html`)
 
 	NewNum := ret4.FindAllStringSubmatch(result1, -1)
-
-	NewUrl := "https://www.koolearn.com/dict/wd_" + strconv.Itoa(NewNum) + ".html"
+	n := len(NewNum)
+	for i := 1 ; i < n ;i++{
+	NewUrl := "https://www.koolearn.com/dict/wd_" + NewNum[i][1]+ ".html"
 	result, err := HttpGetDB(NewUrl)
+}
 	if err != nil {
 		fmt.Println("HttpGetDB err", err)
 		return
 	}
 
 	// 解析单词
-	ret1 := regexp.MustCompile(`<h1 class="word-spell">(*)</h1>`)
+	ret1 := regexp.MustCompile(`<h1 class="word-spell">(.*?)</h1>`)
 
 	fileName := ret1.FindAllStringSubmatch(result, -1)
 
 	// 解析单词词性
 
-	ret2 := regexp.MustCompile(`<span class="prop">(*)</span>`)
+	ret2 := regexp.MustCompile(`<span class="prop">(.*?)</span>`)
 	fileAdj := ret2.FindAllStringSubmatch(result, -1)
 
 	//解析单词意思
 
-	ret3 := regexp.MustCompile(`<span>(*)</span>`)
+	ret3 := regexp.MustCompile(`<span>(.*?)</span>`)
 	fileMean := ret3.FindAllStringSubmatch(result, -1)
 
 	Save2file(idx, fileName, fileAdj, fileMean)
