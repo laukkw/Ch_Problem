@@ -89,7 +89,7 @@ func main() {
 	//信号处理  除法
 	DivButtom.Connect("pressed", func() {
 		path := "./作业生成/除法.txt"
-		Add.WriteFileDiv(path)
+		Add.WriXteFileDiv(path)
 
 	})
 

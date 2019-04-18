@@ -91,7 +91,7 @@ func SpiderPageDB(idx int, page chan int) {
 	// 解析单词
 	ret1 := regexp.MustCompile(`<h1 class="word-spell">(.*?)</h1>`)
 
-	fileName := ret1.FindAllStringSubmatch(result, -1)
+	fileName := ret1.FindAllStringSubmatch(ret1, -1)
 
 	// 解析单词词性
 
