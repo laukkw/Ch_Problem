@@ -1,4 +1,4 @@
-package Url
+package main
 
 import (
 	"fmt"
@@ -84,8 +84,7 @@ func SpiderPageDB2(url string) (title, connect, adj string, err error) {
 }
 
 func storeWorldsTOFile(i int, fileContent []string, fileTitle []string, fileAdj []string) {
-	path := "./作业生成/" + "英语3500第" + strconv.Itoa(i) + "页"
-	f, err := os.Create(path)
+	f, err := os.Create(strconv.Itoa(i) + ".txt")
 	if err != nil {
 		fmt.Println("err == ", err)
 		return
@@ -154,4 +153,18 @@ func ToWork(start, end int) {
 		fmt.Printf("第%d爬取完毕\n", <-page)
 
 	}
+}
+
+func main() {
+
+	var start, end int
+	fmt.Println("请输入爬去的起始页 >= 1 ")
+	fmt.Scan(&start)
+	fmt.Println("请输入爬去的末尾页 >= 1 ")
+	fmt.Scan(&end)
+
+	//实际的工作
+
+	ToWork(start, end)
+
 }
