@@ -6,6 +6,8 @@ import (
 	"fmt"
 	//	"github.com/mattn/go-gtk/glib"
 	"Ch_Problem/China"
+	"Ch_Problem/EgQueCot"
+	"Ch_Problem/EgQueTit"
 	"github.com/mattn/go-gtk/gtk"
 	"os"
 )
@@ -46,6 +48,9 @@ func main() {
 
 	DivButtom := gtk.NewButtonWithLabel("除法")
 
+	EgqueButtom := gtk.NewButtonWithLabel("知汉议英")
+	EgQueCotButtom := gtk.NewButtonWithLabel("知英议汉")
+
 	//设置四个按钮的大小
 
 	MulButtom.SetSizeRequest(60, 40)
@@ -55,6 +60,10 @@ func main() {
 	SubButtom.SetSizeRequest(60, 40)
 
 	DivButtom.SetSizeRequest(60, 40)
+
+	EgqueButtom.SetSizeRequest(100, 40)
+
+	EgQueCotButtom.SetSizeRequest(100, 40)
 	// 按钮添加到布局中
 	layout.Put(Generate, 30, 260)
 	layout.Put(Answer, 30, 220)
@@ -63,6 +72,9 @@ func main() {
 	layout.Put(AddButtom, 30, 60)
 	layout.Put(SubButtom, 30, 140)
 	layout.Put(DivButtom, 30, 20)
+
+	layout.Put(EgqueButtom, 170, 220)
+	layout.Put(EgQueCotButtom, 270, 220)
 
 	//信号处理 加法
 
@@ -107,7 +119,34 @@ func main() {
 		Url.ToWork(start, end)
 
 	})
+	EgqueButtom.Connect("pressed", func() {
 
+		var start, end int
+
+		fmt.Print("输出起始页")
+
+		fmt.Scan(&start)
+
+		fmt.Print("输入终止")
+
+		fmt.Scan(&end)
+		EgQueTit.ToWork(start, end)
+
+	})
+	EgQueCotButtom.Connect("pressed", func() {
+
+		var start, end int
+
+		fmt.Print("输出起始页")
+
+		fmt.Scan(&start)
+
+		fmt.Print("输入终止")
+
+		fmt.Scan(&end)
+		EgQueCot.ToWork(start, end)
+
+	})
 	//信号处理2
 	Generate.Connect("pressed", func() {
 		//选择爬取的页数
@@ -122,6 +161,7 @@ func main() {
 		China.ToWork(start, end)
 
 	})
+
 	//显示控件
 	win.ShowAll()
 	//主事件循环

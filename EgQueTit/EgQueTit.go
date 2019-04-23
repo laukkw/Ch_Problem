@@ -1,4 +1,4 @@
-package Url
+package EgQueTit
 
 import (
 	"fmt"
@@ -29,47 +29,19 @@ func HttpGet(url string) (result string, err error) {
 	}
 	return
 }
-func SpiderPageDB2(url string) (title, connect, adj string, err error) {
+func SpiderPageDB2(url string) (title string, err error) {
 	fmt.Println(url)
 	result, err1 := HttpGet(url)
 	if err1 != nil {
 		err = err1
 		return
 	}
-	ret1 := regexp.MustCompile(`<h1 class="word-spell">(.*?)</h1>`)
+	ret1 := regexp.MustCompile(`<span>(.*?)</span>`)
 	if ret1 == nil {
 		fmt.Println("re err = ", err)
 		return
 	}
-	tmpContent := ret1.FindAllStringSubmatch(result, -1)
-	for _, data := range tmpContent {
-		connect = data[1]
-
-		title = strings.Replace(title, "\n", "", -1)
-		title = strings.Replace(title, "\r", "", -1)
-		title = strings.Replace(title, " ", "", -1)
-		title = strings.Replace(title, "\t", "", -1)
-		break
-	}
-
-	// 解析单词词性
-
-	ret2 := regexp.MustCompile(`<span class="prop">(.*?)</span>`)
-	tmpAdj := ret2.FindAllStringSubmatch(result, -1)
-	for _, data := range tmpAdj {
-		adj = data[1]
-
-		title = strings.Replace(title, "\n", "", -1)
-		title = strings.Replace(title, "\r", "", -1)
-		title = strings.Replace(title, " ", "", -1)
-		title = strings.Replace(title, "\t", "", -1)
-		break
-	}
-
-	//解析单词意思
-
-	ret3 := regexp.MustCompile(`<span>(.*?)</span>`)
-	tmpTitle := ret3.FindAllStringSubmatch(result, -1)
+	tmpTitle := ret1.FindAllStringSubmatch(result, -1)
 	for _, data := range tmpTitle {
 		title = data[1]
 
@@ -79,12 +51,13 @@ func SpiderPageDB2(url string) (title, connect, adj string, err error) {
 		title = strings.Replace(title, "\t", "", -1)
 		break
 	}
+
 	return
 
 }
 
-func storeWorldsTOFile(i int, fileContent []string, fileTitle []string, fileAdj []string) {
-	path := "./答案生成/" + "英语3500第" + strconv.Itoa(i) + "页"
+func storeWorldsTOFile(i int, fileTitle []string) {
+	path := "./作业生成/" + "英语3500知汉议英第" + strconv.Itoa(i) + "页"
 	f, err := os.Create(path)
 	if err != nil {
 		fmt.Println("err == ", err)
@@ -92,10 +65,12 @@ func storeWorldsTOFile(i int, fileContent []string, fileTitle []string, fileAdj 
 	}
 	defer f.Close()
 	n := len(fileTitle)
+	f.WriteString("单词" + "\t\t\t" + "意思" + "\t\t\t" + "词性" + "\n")
 	for i := 0; i < n; i++ {
 		f.WriteString(fileTitle[i] + "\t\t\t")
-		f.WriteString(fileContent[i] + "\t\t\t")
-		f.WriteString(fileAdj[i] + "\n")
+		f.WriteString("_______________ ______________________________" + "\n")
+		//	f.WriteString(fileContent[i] + "\t\t\t")
+		//	f.WriteString(fileAdj[i] + "\n")
 	}
 }
 
@@ -121,23 +96,17 @@ func SpiderPageDB(i int, page chan int) {
 
 	fileTitle := make([]string, 0)
 
-	fileContent := make([]string, 0)
-
-	fileAdj := make([]string, 0)
-
 	for _, data := range NewUrl {
-		title, content, adj, err := SpiderPageDB2("https://www.koolearn.com/" + data[1])
+		title, err := SpiderPageDB2("https://www.koolearn.com/" + data[1])
 
 		if err != nil {
 			fmt.Println("err = ", err)
 			continue
 		}
-		fileContent = append(fileContent, content)
 		fileTitle = append(fileTitle, title)
-		fileAdj = append(fileAdj, adj)
 
 	}
-	storeWorldsTOFile(i, fileTitle, fileContent, fileAdj)
+	storeWorldsTOFile(i, fileTitle)
 	page <- i
 
 }
