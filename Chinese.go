@@ -1,4 +1,4 @@
-package China
+package main
 
 import (
 	"fmt"
@@ -72,4 +72,17 @@ func ToWork(start, end int) {
 	for i := start; i <= end; i++ {
 		fmt.Printf("%d", <-page)
 	}
+}
+func main() {
+
+	var start, end int
+	fmt.Println("请输入爬去的起始页 >= 1 ")
+	fmt.Scan(&start)
+	fmt.Println("请输入爬去的末尾页 >= 1 ")
+	fmt.Scan(&end)
+
+	//实际的工作
+
+	ToWork(start, end)
+
 }

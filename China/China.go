@@ -7,7 +7,6 @@ import (
 	"os"
 	"regexp"
 	"strconv"
-	//	"strings"
 )
 
 func HttpGetDB(url string) (result string, err error) {
@@ -35,6 +34,7 @@ func HttpGetDB(url string) (result string, err error) {
 
 func Save2file(idx int, fileName [][]string) {
 	path := "./作业生成/" + "第" + strconv.Itoa(idx) + "页"
+
 	f, err := os.Create(path)
 
 	if err != nil {
@@ -44,9 +44,7 @@ func Save2file(idx int, fileName [][]string) {
 	defer f.Close()
 	n := len(fileName)
 	for i := 1; i < n; i++ {
-
 		f.WriteString(fileName[i][1] + "\n")
-
 	}
 }
 
@@ -74,4 +72,17 @@ func ToWork(start, end int) {
 	for i := start; i <= end; i++ {
 		fmt.Printf("%d", <-page)
 	}
+}
+func main() {
+
+	var start, end int
+	fmt.Println("请输入爬去的起始页 >= 1 ")
+	fmt.Scan(&start)
+	fmt.Println("请输入爬去的末尾页 >= 1 ")
+	fmt.Scan(&end)
+
+	//实际的工作
+
+	ToWork(start, end)
+
 }
