@@ -8,8 +8,10 @@ import (
 	"Ch_Problem/China"
 	"Ch_Problem/EgQueCot"
 	"Ch_Problem/EgQueTit"
+	"Ch_Problem/File"
 	"github.com/mattn/go-gtk/gtk"
 	"os"
+	"strconv"
 )
 
 func main() {
@@ -51,6 +53,7 @@ func main() {
 	EgqueButtom := gtk.NewButtonWithLabel("知汉议英")
 	EgQueCotButtom := gtk.NewButtonWithLabel("知英议汉")
 
+	ChinaQueButtom := gtk.NewButtonWithLabel("古诗默写")
 	//设置四个按钮的大小
 
 	MulButtom.SetSizeRequest(60, 40)
@@ -64,6 +67,8 @@ func main() {
 	EgqueButtom.SetSizeRequest(100, 40)
 
 	EgQueCotButtom.SetSizeRequest(100, 40)
+
+	ChinaQueButtom.SetSizeRequest(100, 40)
 	// 按钮添加到布局中
 	layout.Put(Generate, 30, 260)
 	layout.Put(Answer, 30, 220)
@@ -75,6 +80,7 @@ func main() {
 
 	layout.Put(EgqueButtom, 170, 220)
 	layout.Put(EgQueCotButtom, 270, 220)
+	layout.Put(ChinaQueButtom, 170, 260)
 
 	//信号处理 加法
 
@@ -159,6 +165,17 @@ func main() {
 		fmt.Scan(&end)
 
 		China.ToWork(start, end)
+
+	})
+	ChinaQueButtom.Connect("pressed", func() {
+
+		//输入你刚爬取的页数
+		var page int
+		fmt.Print("输入刚刚获取到的古诗文页数(int)")
+		fmt.Scan(&page)
+		path := "./答案生成/古诗文第" + strconv.Itoa(page) + "页"
+
+		File.Readfile(1, path)
 
 	})
 

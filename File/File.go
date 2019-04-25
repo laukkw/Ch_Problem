@@ -1,4 +1,4 @@
-package main
+package File
 
 import (
 	"bufio"
@@ -6,7 +6,7 @@ import (
 	"io"
 	"os"
 	//	"strings"
-	//	"strconv"
+	//"strconv"
 )
 
 /*
@@ -33,7 +33,7 @@ func writefile(path2 string, buf string) {
 }
 */
 func saveFile(idx int, name []string) {
-	path2 := "./作业生成/第4页"
+	path2 := "./作业生成/古诗文作业"
 	f2, err2 := os.Create(path2)
 	if err2 != nil {
 		fmt.Println("os err = ", err2)
@@ -52,7 +52,7 @@ func saveFile(idx int, name []string) {
 	}
 
 }
-func readfile(idx int, path string) {
+func Readfile(idx int, path string) {
 	//打开文件
 
 	f, err := os.Open(path)
@@ -81,11 +81,5 @@ func readfile(idx int, path string) {
 
 	}
 	saveFile(idx, name)
-
-}
-func main() {
-	path := "./作业生成/第1页"
-
-	readfile(1, path)
 
 }

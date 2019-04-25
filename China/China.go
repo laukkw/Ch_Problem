@@ -33,7 +33,7 @@ func HttpGetDB(url string) (result string, err error) {
 }
 
 func Save2file(idx int, name []string) {
-	path := "./作业生成/" + "第" + strconv.Itoa(idx) + "页"
+	path := "./答案生成/" + "古诗文第" + strconv.Itoa(idx) + "页"
 
 	f, err := os.Create(path)
 
@@ -82,4 +82,3 @@ func ToWork(start, end int) {
 		fmt.Printf("%d", <-page)
 	}
 }
-
