@@ -32,7 +32,7 @@ func HttpGetDB(url string) (result string, err error) {
 	return
 }
 
-func Save2file(idx int, fileName [][]string) {
+func Save2file(idx int, name []string) {
 	path := "./作业生成/" + "第" + strconv.Itoa(idx) + "页"
 
 	f, err := os.Create(path)
@@ -42,14 +42,18 @@ func Save2file(idx int, fileName [][]string) {
 		return
 	}
 	defer f.Close()
-	n := len(fileName)
+	n := len(name)
+
 	for i := 1; i < n; i++ {
-		f.WriteString(fileName[i][1] + "\n")
+		//	f.WriteString(fileName[i][1] + "\n")
+
+		f.WriteString(name[i] + "\n")
 	}
 }
 
 func SpiderPageDB(idx int, page chan int) {
 	url := "http://www.docx88.com/wkid-8c7e93fcfab069dc50220113-" + strconv.Itoa(idx) + ".html"
+	fmt.Println(url)
 	result, err := HttpGetDB(url)
 	if err != nil {
 		fmt.Println("err = ", err)
@@ -58,8 +62,13 @@ func SpiderPageDB(idx int, page chan int) {
 	ret1 := regexp.MustCompile(`<p class="txt">(.*?)</p>`)
 	fileName := ret1.FindAllStringSubmatch(result, -1)
 	// 爬取古诗文
+	n := len(fileName)
+	name := make([]string, 0)
+	for i := 1; i < n; i++ {
+		name = append(name, fileName[i][1])
+	}
 
-	Save2file(idx, fileName)
+	Save2file(idx, name)
 	page <- idx
 }
 

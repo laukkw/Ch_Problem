@@ -55,25 +55,26 @@ func storeChinaToFile(i int, fileName []string) {
 	path := strconv.Itoa(i) + "页.txt"
 	f, err := os.Create(path)
 	if err != nil {
-		fmt.Println("err = ", err)
+		fmt.Println("create err = ", err)
 		return
 	}
 	defer f.Close()
 	n := len(fileName)
-	for i := 1; i < n; i++ {
-		f.WriteString(fileName[i][1] + "\n")
+	for i := 0; i < n; i++ {
+
+		f.WriteString(fileName[i])
 	}
 }
 func SpiderPageDB(i int, page chan int) {
-	Url := strconv.Itoa(i) + ".html"
-	fileName := make([]string, 0)
-	for _, data := range Url {
-		name, err := SpiderPageDB2(" http://www.docx88.com/wkid-8c7e93fcfab069dc50220113-" + data[i])
-		if err != nil {
-			fmt.Println("err =", err)
 
-			fileName = append(fileName, name)
-		}
+	fileName := make([]string, 0)
+
+	name, err := SpiderPageDB2("http://www.docx88.com/wkid-8c7e93fcfab069dc50220113-" + strconv.Itoa(i) + ".html")
+	if err != nil {
+		fmt.Println(" url err =", err)
+
+		fileName = append(fileName, name)
+
 	}
 	storeChinaToFile(i, fileName)
 	page <- i

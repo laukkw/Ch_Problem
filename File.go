@@ -32,21 +32,27 @@ func writefile(path2 string, buf string) {
 
 }
 */
-
-func appendToFile(path2 string, newbuf string) (err error) {
-	f, err := os.Create(path2)
-	if err != nil {
-		fmt.Println("err ==", err)
-	} else {
-		n, _ := f.Seek(0, os.SEEK_END)
-		_, err = f.WriteAt([]byte(newbuf), n)
-
+func saveFile(idx int, name []string) {
+	path2 := "./作业生成/第4页"
+	f2, err2 := os.Create(path2)
+	if err2 != nil {
+		fmt.Println("os err = ", err2)
+		return
 	}
-	defer f.Close()
-	return err
-}
+	defer f2.Close()
+	for i := 0; i < 200; i++ {
+		f3, err3 := f2.WriteString(name[i] + "\n\n\n")
+		f2.WriteString("___________________________" + "\n")
+		f2.WriteString("\n" + "\n")
+		if err3 != nil {
+			fmt.Println(f3)
+			fmt.Println("err3 ==", err3)
+			return
+		}
+	}
 
-func readfile(path string) {
+}
+func readfile(idx int, path string) {
 	//打开文件
 
 	f, err := os.Open(path)
@@ -58,6 +64,8 @@ func readfile(path string) {
 	defer f.Close()
 
 	r := bufio.NewReader(f)
+	name := make([]string, 0)
+	//	var name string
 	for i := 0; i < 200; i++ {
 		buf, err := r.ReadString(',')
 		if err != nil {
@@ -66,18 +74,18 @@ func readfile(path string) {
 				break
 			}
 			fmt.Println("err = ", err)
+
 		}
-		newbuf := buf
-		fmt.Println(newbuf)
-		path2 := "./作业生成/第4页"
-		appendToFile(path2, newbuf)
+		name = append(name, buf)
+		fmt.Println(buf)
 
 	}
+	saveFile(idx, name)
 
 }
 func main() {
-	path := "./作业生成/第2页"
+	path := "./作业生成/第1页"
 
-	readfile(path)
+	readfile(1, path)
 
 }
